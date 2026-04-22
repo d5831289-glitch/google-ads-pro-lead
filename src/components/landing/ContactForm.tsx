@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
-import { Send, CheckCircle2, Phone, User } from "lucide-react";
+import { Send, CheckCircle2, Phone, User, TrendingUp, Wallet } from "lucide-react";
 import { toast } from "sonner";
 
 const schema = z.object({
@@ -15,22 +15,60 @@ const schema = z.object({
     .min(8, { message: "رقم هاتف غير صالح" })
     .max(20, { message: "رقم هاتف غير صالح" })
     .regex(/^[+\d\s()-]+$/, { message: "رقم الهاتف يجب أن يحتوي أرقاماً فقط" }),
+  monthlySales: z
+    .string()
+    .trim()
+    .min(1, { message: "يرجى تحديد المبيعات الشهرية" })
+    .max(30, { message: "القيمة طويلة جداً" }),
+  marketingBudget: z
+    .string()
+    .trim()
+    .min(1, { message: "يرجى تحديد الميزانية التسويقية" })
+    .max(30, { message: "القيمة طويلة جداً" }),
 });
+
+const salesOptions = [
+  "أقل من 10,000 ريال",
+  "10,000 - 50,000 ريال",
+  "50,000 - 200,000 ريال",
+  "200,000 - 500,000 ريال",
+  "أكثر من 500,000 ريال",
+];
+
+const budgetOptions = [
+  "أقل من 3,000 ريال",
+  "3,000 - 10,000 ريال",
+  "10,000 - 30,000 ريال",
+  "30,000 - 100,000 ريال",
+  "أكثر من 100,000 ريال",
+];
 
 export function ContactForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
+  const [monthlySales, setMonthlySales] = useState("");
+  const [marketingBudget, setMarketingBudget] = useState("");
+  const [errors, setErrors] = useState<{
+    name?: string;
+    phone?: string;
+    monthlySales?: string;
+    marketingBudget?: string;
+  }>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const result = schema.safeParse({ name, phone });
+    const result = schema.safeParse({ name, phone, monthlySales, marketingBudget });
     if (!result.success) {
-      const fieldErrors: { name?: string; phone?: string } = {};
+      const fieldErrors: {
+        name?: string;
+        phone?: string;
+        monthlySales?: string;
+        marketingBudget?: string;
+      } = {};
       result.error.issues.forEach((issue) => {
-        const key = issue.path[0] as "name" | "phone";
+        const key = issue.path[0] as "name" | "phone" | "monthlySales" | "marketingBudget";
         fieldErrors[key] = issue.message;
       });
       setErrors(fieldErrors);
@@ -125,6 +163,56 @@ export function ContactForm() {
                     </div>
                     {errors.phone && (
                       <p className="mt-1.5 text-xs text-destructive">{errors.phone}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="monthlySales" className="mb-2 block text-sm font-semibold text-foreground">
+                      المبيعات الشهرية (بالريال)
+                    </label>
+                    <div className="relative">
+                      <TrendingUp className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <select
+                        id="monthlySales"
+                        value={monthlySales}
+                        onChange={(e) => setMonthlySales(e.target.value)}
+                        className="h-12 w-full appearance-none rounded-lg border border-border bg-background px-10 text-sm text-foreground transition-smooth focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/30"
+                      >
+                        <option value="">اختر متوسط مبيعاتك الشهرية</option>
+                        {salesOptions.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {errors.monthlySales && (
+                      <p className="mt-1.5 text-xs text-destructive">{errors.monthlySales}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="marketingBudget" className="mb-2 block text-sm font-semibold text-foreground">
+                      الميزانية التسويقية الشهرية (بالريال)
+                    </label>
+                    <div className="relative">
+                      <Wallet className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <select
+                        id="marketingBudget"
+                        value={marketingBudget}
+                        onChange={(e) => setMarketingBudget(e.target.value)}
+                        className="h-12 w-full appearance-none rounded-lg border border-border bg-background px-10 text-sm text-foreground transition-smooth focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/30"
+                      >
+                        <option value="">اختر ميزانيتك التسويقية</option>
+                        {budgetOptions.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {errors.marketingBudget && (
+                      <p className="mt-1.5 text-xs text-destructive">{errors.marketingBudget}</p>
                     )}
                   </div>
 
