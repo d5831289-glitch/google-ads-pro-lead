@@ -8,7 +8,7 @@ export function Navbar() {
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-primary shadow-soft">
             <TrendingUp className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
           </div>
-          <span className="text-lg font-bold text-foreground">جوجل أدز برو</span>
+          <span className="text-lg font-bold text-foreground">تشويش</span>
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">

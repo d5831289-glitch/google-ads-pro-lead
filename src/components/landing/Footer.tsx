@@ -8,10 +8,10 @@ export function Footer() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary">
             <TrendingUp className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
           </div>
-          <span className="text-sm font-bold text-foreground">جوجل أدز برو</span>
+          <span className="text-sm font-bold text-foreground">تشويش</span>
         </div>
         <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} جميع الحقوق محفوظة. شريك معتمد لجوجل.
+          © {new Date().getFullYear()} تشويش - جميع الحقوق محفوظة. شريك معتمد لجوجل.
         </p>
       </div>
     </footer>
