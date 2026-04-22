@@ -10,16 +10,16 @@ import { Toaster } from "@/components/ui/sonner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "إدارة إعلانات جوجل الاحترافية - Google Ads | جوجل أدز برو" },
+      { title: "تشويش - إدارة إعلانات جوجل الاحترافية | Google Ads" },
       {
         name: "description",
         content:
-          "خدمة احترافية لإدارة حملات Google Ads: تحليل، إعداد، إطلاق، وتحسين مستمر. ضاعف مبيعاتك مع خبراء معتمدين.",
+          "تشويش: وكالة متخصصة في إدارة حملات Google Ads. تحليل، إعداد، إطلاق، وتحسين مستمر. ضاعف مبيعاتك مع خبراء معتمدين.",
       },
-      { property: "og:title", content: "إدارة إعلانات جوجل الاحترافية - Google Ads" },
+      { property: "og:title", content: "تشويش - إدارة إعلانات جوجل الاحترافية" },
       {
         property: "og:description",
-        content: "ضاعف مبيعاتك مع إدارة احترافية لحملات Google Ads. استشارة مجانية.",
+        content: "ضاعف مبيعاتك مع تشويش، وكالة متخصصة في إدارة حملات Google Ads. استشارة مجانية.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
