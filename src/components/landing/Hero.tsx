@@ -39,7 +39,7 @@ export function Hero() {
           </div>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
-            {["بدون عقود إلزامية", "تقارير شفافة أسبوعياً", "ROI مضمون"].map((item) => (
+            {["دعم فني على مدار الساعة", "شفافية كاملة في الميزانية", "ROI مضمون"].map((item) => (
               <div key={item} className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-primary" />
                 <span>{item}</span>
