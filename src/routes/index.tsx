@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/landing/Navbar";
+import { WelcomeBanner } from "@/components/landing/WelcomeBanner";
 import { Hero } from "@/components/landing/Hero";
 import { Features } from "@/components/landing/Features";
 import { Steps } from "@/components/landing/Steps";
@@ -41,6 +42,7 @@ export const Route = createFileRoute("/")({
 function LandingPage() {
   return (
     <div dir="rtl" lang="ar" className="min-h-screen bg-background">
+      <WelcomeBanner />
       <Navbar />
       <main>
         <Hero />
