@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
-import { Send, CheckCircle2, Phone, User, TrendingUp, Wallet } from "lucide-react";
+import { Send, CheckCircle2, Phone, User, TrendingUp, Wallet, Globe } from "lucide-react";
 import { toast } from "sonner";
 
 const schema = z.object({
@@ -25,6 +25,25 @@ const schema = z.object({
     .trim()
     .min(1, { message: "يرجى تحديد الميزانية التسويقية" })
     .max(30, { message: "القيمة طويلة جداً" }),
+  websiteUrl: z
+    .string()
+    .trim()
+    .max(255, { message: "الرابط طويل جداً" })
+    .refine(
+      (val) => {
+        if (!val) return true;
+        try {
+          const withProtocol = /^https?:\/\//i.test(val) ? val : `https://${val}`;
+          new URL(withProtocol);
+          return true;
+        } catch {
+          return false;
+        }
+      },
+      { message: "رابط غير صالح" },
+    )
+    .optional()
+    .or(z.literal("")),
 });
 
 const salesOptions = [
@@ -48,27 +67,30 @@ export function ContactForm() {
   const [phone, setPhone] = useState("");
   const [monthlySales, setMonthlySales] = useState("");
   const [marketingBudget, setMarketingBudget] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
   const [errors, setErrors] = useState<{
     name?: string;
     phone?: string;
     monthlySales?: string;
     marketingBudget?: string;
+    websiteUrl?: string;
   }>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const result = schema.safeParse({ name, phone, monthlySales, marketingBudget });
+    const result = schema.safeParse({ name, phone, monthlySales, marketingBudget, websiteUrl });
     if (!result.success) {
       const fieldErrors: {
         name?: string;
         phone?: string;
         monthlySales?: string;
         marketingBudget?: string;
+        websiteUrl?: string;
       } = {};
       result.error.issues.forEach((issue) => {
-        const key = issue.path[0] as "name" | "phone" | "monthlySales" | "marketingBudget";
+        const key = issue.path[0] as "name" | "phone" | "monthlySales" | "marketingBudget" | "websiteUrl";
         fieldErrors[key] = issue.message;
       });
       setErrors(fieldErrors);
@@ -213,6 +235,28 @@ export function ContactForm() {
                     </div>
                     {errors.marketingBudget && (
                       <p className="mt-1.5 text-xs text-destructive">{errors.marketingBudget}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="websiteUrl" className="mb-2 block text-sm font-semibold text-foreground">
+                      رابط المتجر أو الموقع <span className="font-normal text-muted-foreground">(اختياري)</span>
+                    </label>
+                    <div className="relative">
+                      <Globe className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <input
+                        id="websiteUrl"
+                        type="url"
+                        dir="ltr"
+                        value={websiteUrl}
+                        onChange={(e) => setWebsiteUrl(e.target.value)}
+                        placeholder="https://example.com"
+                        maxLength={255}
+                        className="h-12 w-full rounded-lg border border-border bg-background px-10 text-sm text-foreground transition-smooth placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/30"
+                      />
+                    </div>
+                    {errors.websiteUrl && (
+                      <p className="mt-1.5 text-xs text-destructive">{errors.websiteUrl}</p>
                     )}
                   </div>
 
