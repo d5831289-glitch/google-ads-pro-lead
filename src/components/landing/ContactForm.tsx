@@ -238,6 +238,28 @@ export function ContactForm() {
                     )}
                   </div>
 
+                  <div>
+                    <label htmlFor="websiteUrl" className="mb-2 block text-sm font-semibold text-foreground">
+                      رابط المتجر أو الموقع <span className="font-normal text-muted-foreground">(اختياري)</span>
+                    </label>
+                    <div className="relative">
+                      <Globe className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <input
+                        id="websiteUrl"
+                        type="url"
+                        dir="ltr"
+                        value={websiteUrl}
+                        onChange={(e) => setWebsiteUrl(e.target.value)}
+                        placeholder="https://example.com"
+                        maxLength={255}
+                        className="h-12 w-full rounded-lg border border-border bg-background px-10 text-sm text-foreground transition-smooth placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/30"
+                      />
+                    </div>
+                    {errors.websiteUrl && (
+                      <p className="mt-1.5 text-xs text-destructive">{errors.websiteUrl}</p>
+                    )}
+                  </div>
+
                   <button
                     type="submit"
                     disabled={loading}
